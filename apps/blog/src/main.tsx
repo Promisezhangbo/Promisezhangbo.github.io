@@ -5,7 +5,7 @@ import App from "./App.tsx";
 
 let root: Root | null = null;
 
-function render(props: any) {
+function render(props: { container?: HTMLElement }) {
   const { container } = props ?? {};
   console.log(container, props, "测试一下");
   const rootContainer = container?.querySelector("#root") || document.getElementById("root");

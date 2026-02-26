@@ -2,9 +2,6 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
-  const a = "str111";
-  console.log(a);
-
   return (
     <div>
       "父应用首页"
