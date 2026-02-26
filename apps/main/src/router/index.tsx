@@ -9,9 +9,8 @@ const route = [
     children: [
       { index: true, element: <Navigate to='home' replace /> },
       { path: "home", element: <Home /> },
-      { path: "/agent/*", element: <div id='sub-app' /> },
-      { path: "/blog/*", element: <div id='sub-app' /> },
-      { path: "/singin/*", element: <div id='sub-app' /> }
+      // 自动匹配子应用路由 (e.g. /agent, /blog, /singin)
+      { path: ":appName/*", element: <div /> }
     ]
   }
 ];

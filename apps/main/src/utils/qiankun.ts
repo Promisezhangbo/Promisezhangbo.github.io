@@ -26,28 +26,27 @@ export const apps = [
 
 export function registerAppsFn() {
   registerMicroApps(apps, {
-    beforeLoad: async props => {
-      console.log("加载前", props);
+    beforeLoad: async app => {
+      console.log("加载前", app);
     },
-    afterMount: async props => {
-      console.log("挂载后", props);
+    beforeMount: async app => {
+      console.log("挂载前", app);
     },
-    afterUnmount: async props => {
-      console.log("卸载后", props);
+    afterMount: async app => {
+      console.log("挂载后", app);
     },
-    beforeMount: async props => {
-      console.log("挂载前", props);
+    beforeUnmount: async app => {
+      console.log("卸载前", app);
     },
-    beforeUnmount: async props => {
-      console.log("卸载前", props);
+    afterUnmount: async app => {
+      console.log("卸载后", app);
     }
   });
+
   start({
-    // prefetch: true,
     sandbox: {
-      strictStyleIsolation: true, // 样式隔离保留
-      experimentalStyleIsolation: true
+      experimentalStyleIsolation: false
     },
-    singular: false
+    prefetch: false
   });
 }
