@@ -7,7 +7,6 @@ let root: Root | null = null;
 
 function render(props: { container?: HTMLElement }) {
   const { container } = props ?? {};
-  console.log(container, props, "测试一下");
   const rootContainer = container?.querySelector("#root") || document.getElementById("root");
 
   if (!rootContainer) return;
@@ -29,18 +28,19 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   renderWithQiankun({
     bootstrap: async () => {},
     mount: async props => {
-      console.log("【blog】挂载完成", props);
+      console.log("【blog】挂载完成");
       render(props);
+      props.setGlobalState({ appLoading: false });
     },
     unmount: async props => {
-      console.log("【blog】卸载完成", props);
+      console.log("【blog】卸载完成");
       if (root) {
         root.unmount();
         root = null;
       }
     },
     update: async props => {
-      console.log("【blog】更新完成", props);
+      console.log("【blog】更新完成");
     }
   });
 }

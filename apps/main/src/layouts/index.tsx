@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 function Layouts() {
   const navigate = useNavigate();
   const location = useLocation();
+  // 包含login就不展示main应用
   const isShowMain = !location.pathname.startsWith("/login");
 
   return (

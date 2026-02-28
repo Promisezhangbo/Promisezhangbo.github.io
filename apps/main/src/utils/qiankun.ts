@@ -1,3 +1,4 @@
+import { qiankunState } from "@/utils/qiankunGlobalState";
 import { registerMicroApps, start } from "qiankun";
 
 export const apps = [
@@ -27,19 +28,21 @@ export const apps = [
 export function registerAppsFn() {
   registerMicroApps(apps, {
     beforeLoad: async app => {
-      console.log("加载前", app);
+      qiankunState.globalState.setGlobalState({ loading: true, loadingAppName: app.name });
+      console.log("全局加载前", app);
     },
     beforeMount: async app => {
-      console.log("挂载前", app);
+      console.log("全局挂载前");
     },
     afterMount: async app => {
-      console.log("挂载后", app);
+      qiankunState.globalState.setGlobalState({ loading: false, loadingAppName: app.name });
+      console.log("全局挂载后", app);
     },
     beforeUnmount: async app => {
-      console.log("卸载前", app);
+      console.log("全局卸载前");
     },
     afterUnmount: async app => {
-      console.log("卸载后", app);
+      console.log("全局卸载后");
     }
   });
 

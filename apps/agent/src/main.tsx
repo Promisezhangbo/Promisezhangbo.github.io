@@ -7,7 +7,6 @@ let root: Root | null = null;
 
 function render(props: { container?: HTMLElement }) {
   const { container } = props ?? {};
-  console.log(container, props, "【agent】渲染");
 
   const rootContainer = container?.querySelector("#root") || document.getElementById("root");
 
@@ -32,6 +31,7 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
     mount: async props => {
       console.log("【agent】挂载完成", props);
       render(props);
+      props.setGlobalState({ appLoading: false });
     },
     unmount: async props => {
       console.log("【agent】卸载完成", props);
