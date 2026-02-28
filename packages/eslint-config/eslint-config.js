@@ -26,7 +26,12 @@ export default defineConfig([
       prettierConfig
     ],
 
-    plugins: { prettier: prettierPlugin },
+    plugins: {
+      prettier: prettierPlugin,
+      rules: {
+        "prettier/prettier": "error"
+      }
+    },
 
     languageOptions: {
       ecmaVersion: "latest",
@@ -36,19 +41,63 @@ export default defineConfig([
         allowDefaultProject: true
       }
     },
+
     rules: {
-      "arrow-parens": ["off"],
-      "prettier/prettier": [
-        "warn",
+      /** Possible Errors */
+      "max-len": "off",
+      "no-console": "off",
+      "no-debugger": "error",
+
+      /** Best Practices */
+      eqeqeq: ["error", "always"],
+      "no-alert": "error",
+      "no-caller": "error",
+      "no-else-return": "error",
+      "no-empty-function": "off",
+      "no-eval": "error",
+      "no-implicit-globals": "error",
+      "no-multi-spaces": "error",
+      "no-new": "error",
+      "no-return-await": "off",
+      "no-unused-expressions": "error",
+
+      /** Variables */
+      "no-shadow": "error",
+      "no-undef-init": "error",
+      "no-unused-vars": "off",
+
+      /** Stylistic Issues */
+      "array-bracket-spacing": ["error", "never"],
+      "block-spacing": ["error", "always"],
+      "brace-style": ["error", "1tbs", { allowSingleLine: true }],
+      camelcase: "off",
+      "eol-last": ["error", "always"],
+      "func-call-spacing": ["error", "never"],
+      indent: "off",
+      "key-spacing": ["error", { beforeColon: false, afterColon: true }],
+      "linebreak-style": ["error", "unix"],
+      "no-mixed-spaces-and-tabs": "error",
+      "no-trailing-spaces": "error",
+      "space-before-blocks": ["error", "always"],
+      "space-before-function-paren": [
+        "error",
         {
-          arrowParens: "always", // 这里也可配置，和.prettierrc保持一致
-          singleQuote: false
-          // "arrow-body-style": "off"
+          anonymous: "always",
+          named: "never",
+          asyncArrow: "always"
         }
       ],
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-      "@typescript-eslint/no-explicit-any": "warn"
+      "space-in-parens": ["error", "never"],
+
+      /** TypeScript-Specific Rules */
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-empty-function": ["off", { allow: [] }],
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-inferrable-types": "error",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-var-requires": "error",
+      "@typescript-eslint/no-require-imports": "error"
     }
   }
 ]);

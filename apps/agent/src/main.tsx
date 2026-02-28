@@ -29,18 +29,18 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   renderWithQiankun({
     bootstrap: async () => { },
     mount: async (props) => {
-      console.log("【agent】挂载完成", props);
+      console.log("【agent】挂载完成");
       render(props);
     },
-    unmount: async (props) => {
-      console.log("【agent】卸载完成", props);
+    unmount: async (_props) => {
+      console.log("【agent】卸载完成");
       if (root) {
         root.unmount();
         root = null;
       }
     },
-    update: async (props) => {
-      console.log("【agent】更新完成", props);
+    update: async (_props) => {
+      console.log("【agent】更新完成");
     }
   });
 }

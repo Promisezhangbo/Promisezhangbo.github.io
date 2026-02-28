@@ -5,7 +5,7 @@ import App from "./App.tsx";
 
 let root: Root | null = null;
 
-function render(props: any) {
+function render(props: { container?: HTMLElement }) {
   const { container } = props ?? {};
   console.log(container, props, "测试一下");
   const rootContainer = container?.querySelector("#root") || document.getElementById("root");
@@ -27,13 +27,13 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   render({});
 } else {
   renderWithQiankun({
-    bootstrap: async () => {},
+    bootstrap: async () => { },
     mount: async (props) => {
-      console.log("【blog】挂载完成", props);
+      console.log("【login】挂载完成", props);
       render(props);
     },
     unmount: async (props) => {
-      console.log("【blog】卸载完成", props);
+      console.log("【login】卸载完成", props);
       if (root) {
         root.unmount();
         root = null;

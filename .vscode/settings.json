@@ -17,5 +17,6 @@
   },
   // 确保 Prettier 优先于其他工具
   "prettier.enable": true,
-  "eslint.format.enable": false // 禁止 ESLint 作为格式化工具
+  "eslint.format.enable": false, // 禁止 ESLint 作为格式化工具
+  "editor.trimAutoWhitespace": true
 }
