@@ -1,9 +1,11 @@
+# 根目录 netlify.toml（仅保留这几行，其他全删）
 [build]
-  command = "pnpm run build"
+  command = "pnpm run build:all"
   publish = "dist"
 
-# 关键：所有路由都先交给主应用 /main/index.html
+# 唯一重写规则：所有路由都指向主应用入口
 [[redirects]]
   from = "/*"
   to = "/main/index.html"
   status = 200
+  force = true # 新增：强制覆盖所有旧规则，忽略缓存
