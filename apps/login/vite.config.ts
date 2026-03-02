@@ -3,6 +3,8 @@ import path from "path";
 import { defineConfig } from "vite";
 import qiankun from "vite-plugin-qiankun";
 
+const isDev = process.env.NODE_ENV === "development";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -19,7 +21,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src")
     }
   },
-  base: "/login/",
+  base: isDev ? "/" : "/login/",
   server: {
     port: 9003,
     hmr: false,

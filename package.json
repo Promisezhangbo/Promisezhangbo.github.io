@@ -6,8 +6,8 @@
   "author": "zhangbo <zhangbo3.vendor@sensetime.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && pnpm --parall --filter \"./apps/*\" build",
-    "dev": "pnpm --parall --filter \"./apps/*\" dev",
+    "build": "cross-env NODE_ENV=production && rm -rf dist && pnpm --parall --filter \"./apps/*\" build",
+    "dev": "cross-env NODE_ENV=development && pnpm --parall --filter \"./apps/*\" dev",
     "lint": "pnpm --parall --filter \"./apps/*\" lint",
     "format": "prettier --write .",
     "prepare": "husky"
@@ -15,8 +15,8 @@
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
-    "@packages/prettier-config": "workspace:*",
     "@packages/eslint-config": "workspace:*",
+    "@packages/prettier-config": "workspace:*",
     "@types/node": "^24.10.11",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
@@ -35,5 +35,8 @@
     "**/*.{json,md,css,scss}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "cross-env": "^10.1.0"
   }
 }

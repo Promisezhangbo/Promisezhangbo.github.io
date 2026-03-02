@@ -1,24 +1,26 @@
 import { qiankunState } from "@/utils/qiankunGlobalState";
 import { registerMicroApps, start } from "qiankun";
 
+const isDev = process.env.NODE_ENV === "development";
+
 export const apps = [
   {
     name: "agent",
-    entry: "//localhost:9001",
+    entry: isDev ? "//localhost:9001" : "/agent/",
     container: "#sub-app",
     activeRule: "/agent",
     props: {}
   },
   {
     name: "blog",
-    entry: "//localhost:9002",
+    entry: isDev ? "//localhost:9002" : "/blog/",
     container: "#sub-app",
     activeRule: "/blog",
     props: {}
   },
   {
     name: "login",
-    entry: "//localhost:9003",
+    entry: isDev ? "//localhost:9003" : "/login/",
     container: "#sub-app",
     activeRule: "/login",
     props: {}
