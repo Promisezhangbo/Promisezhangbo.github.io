@@ -2,18 +2,6 @@
 
 ## 项目说明
 
-### 目录说明
-
-|-- .github |-- .husky |-- .vscode |-- apps |-- dist |-- docs |--
-
-## 配置相关
-
-### ts相关配置
-
-ts的配置做了一个基础的抽离，将公共的配置单独抽成了一个包，便于维护及形成一个公共规范这个包叫做 @packages/ts-config, 并且通过pnpm workspace:\* 的方式链接到子应用修改 @packages/ts-config 的配置后,子应用便可直接生效
-
-如修改不生效，请检查子应用 package.json的依赖配置，或则子应用的tsconfig.json 配置
-
 ## 项目说明
 
 这是一个基于 pnpm workspaces + Vite 的 monorepo，使用 qiankun 做微前端 (micro-frontend) 的宿主与子应用整合。
@@ -75,7 +63,7 @@ cd apps/main && pnpm dev
 - `packages/prettier-config`：共享 Prettier 配置，统一代码风格。
 - `packages/ts-config`：共享 TypeScript 基础配置（路径别名等）。
 
-如果你修改了 packages 下的配置，运行 `pnpm i` 并重启编辑器 / TS server 以生效。
+如果你修改了 packages 下的配置，并且通过pnpm workspace:\* 的方式链接到子应用修改 @packages/ts-config 的配置后,子应用便可直接生效，入不生效则运行 `pnpm i` 并重启编辑器 / TS server 以生效。
 
 ### 常见问题与调试提示（qiankun 相关）
 
