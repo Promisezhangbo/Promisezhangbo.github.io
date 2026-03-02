@@ -1,25 +1,8 @@
-# 根目录 netlify.toml
-[[redirects]]
-  from = "/login/*"
-  to = "/login/index.html"
-  status = 200
+[build]
+  command = "pnpm run build"
+  publish = "dist"
 
-[[redirects]]
-  from = "/blog/*"
-  to = "/blog/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/agent/*"
-  to = "/agent/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/main/*"
-  to = "/main/index.html"
-  status = 200
-
-# 主应用默认路由
+# 关键：所有路由都先交给主应用 /main/index.html
 [[redirects]]
   from = "/*"
   to = "/main/index.html"
