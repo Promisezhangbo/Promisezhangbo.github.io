@@ -1,5 +1,10 @@
 # 根目录 netlify.toml
 [[redirects]]
+  from = "/login/*"
+  to = "/login/index.html"
+  status = 200
+
+[[redirects]]
   from = "/blog/*"
   to = "/blog/index.html"
   status = 200
