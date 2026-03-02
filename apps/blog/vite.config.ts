@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     outDir: "../../dist/blog"
   },
-  base: "/",
+  base: "/blog/",
   server: {
     port: 9002,
     cors: true,

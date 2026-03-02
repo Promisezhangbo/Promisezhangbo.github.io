@@ -19,7 +19,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src")
     }
   },
-  base: "/",
+  base: "/login/",
   server: {
     port: 9003,
     hmr: false,

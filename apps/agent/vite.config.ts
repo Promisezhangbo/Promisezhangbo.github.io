@@ -5,7 +5,7 @@ import qiankun from "vite-plugin-qiankun";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/", //'//localhost:9001',
+  base: "/agent/", //'//localhost:9001',
   plugins: [
     react(),
     qiankun("agent", {
