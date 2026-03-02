@@ -10,7 +10,8 @@
     "dev": "cross-env NODE_ENV=development && pnpm --parall --filter \"./apps/*\" dev",
     "lint": "pnpm --parall --filter \"./apps/*\" lint",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postbuild": "cp dist/main/index.html dist/404.html && cp dist/main/index.html dist/index.html"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",

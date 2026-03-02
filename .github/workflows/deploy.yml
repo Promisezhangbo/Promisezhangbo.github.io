@@ -49,3 +49,9 @@ jobs:
           # 关键修复3：清空 gh-pages 分支历史，避免缓存冲突
           clean: true
           clean_keep: ".git" # 保留 git 目录，避免重新初始化
+          # 新增：排除 README.md 等无关文件，只保留 dist 内容
+          exclude_assets: |
+            README.md
+            LICENSE
+            .gitignore
+            package.json
