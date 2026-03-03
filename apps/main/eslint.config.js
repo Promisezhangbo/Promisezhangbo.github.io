@@ -6,7 +6,8 @@ export default defineConfig([
   {
     languageOptions: {
       parserOptions: {
-        tsconfigRootDir: import.meta.dirname
+        tsconfigRootDir: import.meta.dirname,
+        allowDefaultProject: ["public/*.js"]
       }
     },
     rules: {
