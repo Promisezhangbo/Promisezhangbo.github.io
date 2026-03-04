@@ -9,8 +9,6 @@ export default defineConfig((config) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isDev = env.NODE_ENV === "development";
 
-  console.log(isDev, "什么环境");
-
   return {
     base: isDev ? "/" : "/main/",
     plugins: [react()],

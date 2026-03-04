@@ -11,9 +11,7 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>
 );
 
-console.log(__BUILD_TIME__, '__BUILD_TIME__==__BUILD_TIME__');
 
-
-if (window?.__BUILD_TIME__) {
-  console.log(`%c【main】${window?.__BUILD_TIME__}`, 'color: #48a19e; font-size: 18px; font-weight: bold;'); // 调试
+if (__BUILD_TIME__) {
+  console.log(`%c【main】${__BUILD_TIME__}`, 'color: #48a19e; font-size: 18px; font-weight: bold;'); // 调试
 }

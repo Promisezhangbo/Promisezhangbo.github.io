@@ -29,17 +29,17 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
     bootstrap: async () => { },
     mount: async (props) => {
       render(props);
-      if (window?.__BUILD_TIME__) {
-        console.log(`%c【blog】${window?.__BUILD_TIME__}`, 'color: #48a19e; font-size: 18px; font-weight: bold;'); // 调试
+      if (__BUILD_TIME__) {
+        console.log(`%c【blog】${__BUILD_TIME__}`, 'color: #48a19e; font-size: 18px; font-weight: bold;'); // 调试
       }
     },
-    unmount: async (_props) => {
+    unmount: async () => {
       if (root) {
         root.unmount();
         root = null;
       }
     },
-    update: async (_props) => {
+    update: async () => {
     }
   });
 }
