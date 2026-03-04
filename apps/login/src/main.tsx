@@ -1,4 +1,5 @@
 import React from "react";
+import 'antd/dist/reset.css';
 import { createRoot, type Root } from "react-dom/client";
 import { qiankunWindow, renderWithQiankun } from "vite-plugin-qiankun/dist/helper";
 import App from "./App.tsx";
@@ -7,7 +8,6 @@ let root: Root | null = null;
 
 function render(props: { container?: HTMLElement }) {
   const { container } = props ?? {};
-  console.log(container, props, "测试一下");
   const rootContainer = container?.querySelector("#root") || document.getElementById("root");
 
   if (!rootContainer) return;
