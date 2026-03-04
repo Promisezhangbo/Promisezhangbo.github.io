@@ -1,9 +1,6 @@
 {
   "name": "@packages/ts-config",
   "version": "1.0.0",
-  "exports": {
-    ".": "./tsconfig.json"
-  },
   "license": "ISC",
   "packageManager": "pnpm@10.13.1"
 }
