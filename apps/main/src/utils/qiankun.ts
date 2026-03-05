@@ -49,8 +49,7 @@ export function registerAppsFn() {
 
   start({
     sandbox: {
-      experimentalStyleIsolation: true,
-      strictStyleIsolation: true
+      experimentalStyleIsolation: true
     },
     prefetch: false
   });
