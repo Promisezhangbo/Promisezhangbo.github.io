@@ -18,12 +18,21 @@ function render(props: { container?: HTMLElement }) {
   // 复用 root 实例调用 render 方法
   root.render(
     <React.StrictMode>
-      <App />
+      <div id="app-root" style={{ height: '100vh', overflow: 'auto' }}>
+        <App />
+      </div>
     </React.StrictMode>
   );
 }
 
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+  // When running standalone, prevent body/html scrolling and use app-level scroll
+  try {
+    document.documentElement.style.height = '100%';
+    document.body.style.height = '100%';
+    document.body.style.overflow = 'hidden';
+  } catch (err) { void err; }
+
   render({});
 } else {
   renderWithQiankun({

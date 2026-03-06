@@ -28,7 +28,7 @@ function Layouts() {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ height: '100vh', overflow: 'hidden' }}>
       {isShowMain && (
         <Sider width={220} style={{ background: '#fff', borderRight: '1px solid #f0f0f0' }}>
           <div style={{ height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600 }}>主应用</div>
@@ -37,12 +37,14 @@ function Layouts() {
       )}
 
       <Layout>
-        {isShowMain && <Header style={{ background: '#fff', padding: '0 16px' }}>欢迎来到主应用</Header>}
-        <Content style={{ position: 'relative' }}>
-          {isShowMain && <div style={{ position: 'absolute', width: '100%', height: '100%' }}><Outlet /></div>}
+        {isShowMain && <Header style={{ background: '#fff', padding: '0 16px', height: 64 }}>欢迎来到主应用</Header>}
+        <Content style={{ padding: 0, display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
+          {isShowMain && <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}><Outlet /></div>}
 
-          <div style={{ height: isShowMain ? '100%' : '100vh' }}>
-            <div id='sub-app' style={{ width: '100%' }} />
+          <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
+            <div style={{ flex: 1, overflow: 'auto' }}>
+              <div id='sub-app' style={{ width: '100%', height: '100%' }} />
+            </div>
           </div>
         </Content>
       </Layout>
