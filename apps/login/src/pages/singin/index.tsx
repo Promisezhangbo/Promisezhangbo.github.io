@@ -14,7 +14,7 @@ function Singin() {
       hide();
       message.success({ content: '登录成功', key: 'login' });
       // 登录成功后跳转到主应用首页（根据你的路由调整）
-      navigate('/agent');
+      navigate('/home');
     } catch {
       hide();
       message.error('登录失败');
