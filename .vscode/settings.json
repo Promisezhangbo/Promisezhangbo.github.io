@@ -11,12 +11,16 @@
   },
   // 开启保存格式化，且仅触发 Prettier
   "editor.formatOnSave": true,
-  // 禁用 ESLint 自动修复（和全局设置呼应）
+  // 启用 ESLint 在保存时自动修复（会运行可修复的 ESLint 规则）
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "never"
+    "source.fixAll.eslint": "always"
   },
   // 确保 Prettier 优先于其他工具
   "prettier.enable": true,
-  "eslint.format.enable": false, // 禁止 ESLint 作为格式化工具
+  // 保持 Prettier 作为默认格式化器，但允许 ESLint 执行 codeActionsOnSave 修复
+  "eslint.format.enable": false,
+  // ESLint 扩展设置：使用 pnpm，启用对 TSX/TS 文件的校验
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.alwaysShowStatus": true,
   "editor.trimAutoWhitespace": true
 }

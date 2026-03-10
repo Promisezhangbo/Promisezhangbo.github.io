@@ -54,4 +54,3 @@ if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   });
 }
 
-

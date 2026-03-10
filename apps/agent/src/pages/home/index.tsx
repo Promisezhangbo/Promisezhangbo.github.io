@@ -43,7 +43,7 @@ function Home() {
         <Title level={2}>AI 问答</Title>
 
         <Card style={{ marginBottom: 16 }}>
-          <Space direction="vertical" style={{ width: '100%' }}>
+          <Space orientation="vertical" style={{ width: '100%' }}>
             <TextArea rows={4} value={value} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)} placeholder="请输入你的问题，例如：如何进行前端性能优化？" />
             <div style={{ textAlign: 'right' }}>
               <Button type="primary" icon={<SendOutlined />} loading={loading} onClick={send}>发送</Button>

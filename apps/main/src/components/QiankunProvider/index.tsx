@@ -12,9 +12,7 @@ function QiankunProvider(props: PropsWithChildren) {
     });
   }, []);
   return (
-    <div>
-      <Spin spinning={loading}>{props?.children}</Spin>
-    </div>
+    <Spin spinning={loading}>{props?.children}</Spin>
   );
 }
 

@@ -4,7 +4,6 @@ import { Card, Typography, List as AntList, Button } from 'antd';
 import { ArrowRightOutlined, BookOutlined } from '@ant-design/icons';
 import type { Post } from '@/data/posts';
 
-
 const { Title, Paragraph, Link: TyLink } = Typography;
 
 function List() {

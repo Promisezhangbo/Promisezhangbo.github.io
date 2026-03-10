@@ -1,13 +1,13 @@
-import eslintConfig from "@packages/eslint-config";
-import { defineConfig } from "eslint/config";
+import eslintConfig from '@packages/eslint-config';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   ...eslintConfig,
   {
     languageOptions: {
       parserOptions: {
-        tsconfigRootDir: import.meta.dirname
-      }
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       // "@typescript-eslint/no-unused-vars": "error", // 这种是插件中的规则，不能覆盖
@@ -16,6 +16,6 @@ export default defineConfig([
       // lower severity for prettier formatting issues in this package (optional)
       // you can change to "error" after fixing formatting or adjust prettier settings
       // "prettier/prettier": "warn"
-    }
-  }
+    },
+  },
 ]);

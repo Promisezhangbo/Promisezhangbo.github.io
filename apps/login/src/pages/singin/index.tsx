@@ -1,6 +1,6 @@
 import reactLogo from "@/assets/react.svg";
 import { useNavigate } from "react-router-dom";
-import { message, Row, Card, Typography, Image, Space, Button, Flex } from "antd";
+import { message, Row, Card, Typography, Image, Button, Flex } from "antd";
 import { ProForm, ProFormText, ProFormCheckbox } from '@ant-design/pro-components';
 
 function Singin() {

@@ -28,7 +28,7 @@ function Register() {
           <ProFormText name="username" label="用户名" rules={[{ required: true, message: '请输入用户名' }]} />
           <ProFormText name="email" label="邮箱" rules={[{ required: true, type: 'email', message: '请输入正确的邮箱' }]} />
           <ProFormText name="password" label="密码" fieldProps={{ type: 'password' }} rules={[{ required: true, message: '请输入密码' }]} />
-          <ProFormText name="confirm" label="确认密码" fieldProps={{ type: 'password' }} rules={[{ required: true, message: '请再次输入密码' }, ({ getFieldValue }: any) => ({
+          <ProFormText name="confirm" label="确认密码" fieldProps={{ type: 'password' }} rules={[{ required: true, message: '请再次输入密码' }, ({ getFieldValue }) => ({
             validator(_, value?: string) {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();

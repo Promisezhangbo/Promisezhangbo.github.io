@@ -1,4 +1,4 @@
-import { Card, List, Typography, Button, Space } from 'antd';
+import { Card, Typography, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const apps = [
@@ -13,19 +13,18 @@ function Home() {
   return (
     <Card>
       <Typography.Title level={4}>父应用控制台</Typography.Title>
-      <Typography.Paragraph>从左侧选择子应用，右侧容器会展示对应子应用内容。</Typography.Paragraph>
+      <Typography.Title level={5}>子应用列表</Typography.Title>
+      <Space size={12}>
 
-      <List
-        dataSource={apps}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-            <Space>
-              <Button type="primary" onClick={() => navigate('/' + item.key)}>打开</Button>
-            </Space>
-          </List.Item>
-        )}
-      />
+        {apps.map(app => (
+
+          <Button type="primary" key={app.key} onClick={() => navigate('/' + app.key)}>
+            {app.title}
+          </Button>
+
+        ))}
+      </Space>
+
     </Card>
   );
 }
