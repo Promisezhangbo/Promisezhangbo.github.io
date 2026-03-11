@@ -48,6 +48,7 @@ export default defineConfig([
       // 只允许最多 1 个连续空行，文件末尾最多保留 1 个 EOF 空行
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
       'set-state-in-effect': 'off',
+      'react-hooks/set-state-in-effect': 'off',
       /** Possible Errors */
       'max-len': 'off',
       'no-console': 'off',

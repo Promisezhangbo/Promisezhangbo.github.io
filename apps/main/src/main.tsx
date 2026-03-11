@@ -1,8 +1,6 @@
 import App from "@/App";
 import { createRoot } from "react-dom/client";
 import "./app.css";
-// import 'antd/dist/reset.css';
-// import 'antd/dist/antd.css';
 createRoot(document.getElementById("root")!).render(
   <App />
 );

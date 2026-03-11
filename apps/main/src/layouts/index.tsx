@@ -1,26 +1,26 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Flex, Layout, Menu, Segmented, Tag } from "antd";
-import type { MenuProps } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
-const { Sider, Content, Header } = Layout;
+const { Content, Header } = Layout;
 function Layouts() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currantApp = location.pathname?.split('/')[1] || 'home';
-  const [currentTag, setCurrentTag] = useState<string>(currantApp);
+  const [currentMenu, setCurrentMenu] = useState<string>('home');
   // 当路径以 /login 开头时，不展示主应用的左侧导航（登录页为独立子应用）
-  // const isShowMain = !['login', 'home'].includes(location.pathname.split('/')[1]);
+  const isShowMain = !['login'].includes(currentMenu);
   const items = [
-    { value: 'home', label: '首页' },
-    { value: 'agent', label: '子应用[Agent]' },
-    { value: 'blog', label: '子应用[Blog]' },
-    { value: 'login', label: '登录' }
+    { value: 'home', label: '首页', key: 'home' },
+    { value: 'agent', label: '子应用[Agent]', key: 'agent' },
+    { value: 'blog', label: '子应用[Blog]', key: 'blog' },
+    { value: 'login', label: '登录', key: 'login' }
   ];
+  useEffect(() => {
+    const currantApp = location.pathname?.split('/')[1] || 'home';
+    setCurrentMenu(currantApp);
+  }, [location.pathname])
   const onMenuSelect = (key: string) => {
-    console.log(key, 'key===key');
     if (key) {
-      setCurrentTag(key);
+      setCurrentMenu(key);
       if (key === 'home') navigate('/home');
       else if (key === 'login') navigate('/login');
       else navigate('/' + key);
@@ -28,17 +28,21 @@ function Layouts() {
   };
   return (
     <Layout>
-      <Tag.CheckableTagGroup
-        options={items}
-        value={currentTag}
-        onChange={(value) => onMenuSelect(value as string)}
-      />
-      <Layout>
-        <Content >
-          {/* 主应用暂时只做基座使用，不展示其他路由内容 <Outlet /> */}
-          <div id='sub-app' />
-        </Content>
-      </Layout>
+      {isShowMain && (
+        <Header style={{ background: '#fff' }}>
+          <Menu
+            mode="horizontal"
+            selectedKeys={[currentMenu]}
+            items={items}
+            style={{ flex: 1, minWidth: 0 }}
+            onSelect={(e) => onMenuSelect(e.key)}
+          />
+        </Header>
+      )}
+      <Content >
+        <Outlet />
+        <div id='sub-app' />
+      </Content>
     </Layout>
   );
 }

@@ -1,6 +1,4 @@
 import React from "react";
-// import 'antd/dist/reset.css';
-// import 'antd/dist/antd.css';
 import { createRoot, type Root } from "react-dom/client";
 import { qiankunWindow, renderWithQiankun } from "vite-plugin-qiankun/dist/helper";
 import App from "./App.tsx";
