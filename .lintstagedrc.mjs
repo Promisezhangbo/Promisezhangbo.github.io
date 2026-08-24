@@ -12,8 +12,5 @@ export default {
   'apps/**/package.json': () => 'pnpm deploy:sync-workflow-options',
   'scripts/deploy/sync_deploy_workflow_options.mjs': () => 'pnpm deploy:sync-workflow-options',
   'scripts/deploy/repo_apps.mjs': () => 'pnpm deploy:sync-workflow-options',
-  'packages/micro-app-cli/micro-apps.registry.json': () => [
-    'pnpm micro-app:sync',
-    'pnpm deploy:sync-workflow-options',
-  ],
+  'packages/micro-app-cli/micro-apps.registry.json': () => ['pnpm micro-app:sync', 'pnpm deploy:sync-workflow-options'],
 };

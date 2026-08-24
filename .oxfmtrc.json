@@ -1,10 +1,14 @@
 {
-  "ignorePatterns": ["/dist"],
+  "ignorePatterns": [
+    "/dist"
+  ],
   "tabWidth": 2,
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": ["*.json5"],
+      "files": [
+        "*.json5"
+      ],
       "options": {
         "quoteProps": "preserve",
         "singleQuote": true

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>电脑自检</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="logo" aria-hidden="true"></span>
+          <div>
+            <h1>电脑自检</h1>
+            <p class="sub" id="metaLine">本机诊断 · 卡顿原因与优化建议</p>
+          </div>
+        </div>
+        <nav class="tabs" role="tablist">
+          <button class="tab is-active" data-view="check" type="button">本次自检</button>
+          <button class="tab" data-view="history" type="button">历史记录</button>
+        </nav>
+      </header>
+
+      <main id="view-check" class="view is-active">
+        <section class="hero card">
+          <div class="hero-copy">
+            <h2>看看这台电脑为什么卡</h2>
+            <p>
+              采集 CPU、内存压力、Swap、磁盘、散热和后台进程，指出最可能的原因，并给出能马上做的优化建议。大约需要 10–20 秒。
+            </p>
+          </div>
+          <div class="hero-actions">
+            <label class="check">
+              <input type="checkbox" id="quickMode" />
+              快速模式（跳过 I/O 与网络采样）
+            </label>
+            <button type="button" class="btn primary" id="runBtn">开始自检</button>
+          </div>
+        </section>
+
+        <section class="progress card hidden" id="progressCard">
+          <div class="progress-head">
+            <span class="spinner" aria-hidden="true"></span>
+            <strong id="progressTitle">正在自检…</strong>
+          </div>
+          <p class="muted" id="progressMsg">准备中</p>
+          <ol class="steps" id="progressSteps"></ol>
+        </section>
+
+        <section id="result" class="result hidden"></section>
+      </main>
+
+      <main id="view-history" class="view">
+        <section class="history-layout">
+          <aside class="history-list card" id="historyList">
+            <p class="muted">还没有记录。先做一次自检。</p>
+          </aside>
+          <section class="history-detail" id="historyDetail">
+            <div class="empty card">
+              <h2>选择一条历史记录</h2>
+              <p class="muted">左侧按时间排列。可以对比优化前后的压力分。</p>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
