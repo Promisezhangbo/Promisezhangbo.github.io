@@ -19,6 +19,7 @@
 | --- | --- |
 | [github-pages-deploy.md](./github-pages-deploy.md) | GitHub Pages 手动部署、`dist/` 与 `postbuild` |
 | [netlify-deploy.md](./netlify-deploy.md) | Netlify 部署约定 |
+| [tencent-cvm-docker.md](./tencent-cvm-docker.md) | 整站 Docker 镜像 → 腾讯云 CVM / 轻量（TCR + `Dockerfile.cvm`） |
 
 ## 后端
 
