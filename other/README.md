@@ -35,20 +35,21 @@ Dockerfile / Dockerfile.cvm → OCI 镜像
 
 | 目录 | 说明 |
 | --- | --- |
-| [self_check/](./self_check/) | 本机卡顿自检 |
-| [reactjs-from-0-to-1/](./reactjs-from-0-to-1/) | React |
-| [vue2-from-0-to-1/](./vue2-from-0-to-1/) | Vue 2 |
-| [vue3-from-0-to-1/](./vue3-from-0-to-1/) | Vue 3 |
-| [typescript-from-0-to-1/](./typescript-from-0-to-1/) | TypeScript（笔记到 **7.0**；仓库锁 5.9） |
-| [webpack-from-0-to-1/](./webpack-from-0-to-1/) | webpack 4/5 |
-| [vite-from-0-to-1/](./vite-from-0-to-1/) | Vite **8** |
-| [rollup-from-0-to-1/](./rollup-from-0-to-1/) | Rollup（库 / Vite≤7 生产） |
-| [tsup-from-0-to-1/](./tsup-from-0-to-1/) | tsup（esbuild 打库） |
-| [rolldown-from-0-to-1/](./rolldown-from-0-to-1/) | Rolldown（Vite 8 默认打包器） |
-| [eslint-from-0-to-1/](./eslint-from-0-to-1/) | ESLint 8/9 |
-| [prettier-from-0-to-1/](./prettier-from-0-to-1/) | Prettier 2/3 |
-| [oxlint-from-0-to-1/](./oxlint-from-0-to-1/) | Oxlint **1.57** |
-| [oxfmt-from-0-to-1/](./oxfmt-from-0-to-1/) | Oxfmt **0.42** |
-| [docker-from-0-to-1/](./docker-from-0-to-1/) | Docker Engine **29**（上腾讯云见 [docs/tencent-cvm-docker.md](../docs/tencent-cvm-docker.md)） |
-| [kubernetes-from-0-to-1/](./kubernetes-from-0-to-1/) | Kubernetes **1.36** |
-| [k3s-from-0-to-1/](./k3s-from-0-to-1/) | k3s（跟 k8s minor，如 **1.36.x+k3s1**） |
+| [self_check/](./self_check/README.md) | 本机卡顿自检 |
+| [showMD/](./showMD/README.md) | 本地 Markdown 编辑器（**Tauri 2 + React**，`pnpm tauri dev`） |
+| [reactjs-from-0-to-1/](./reactjs-from-0-to-1/README.md) | React |
+| [vue2-from-0-to-1/](./vue2-from-0-to-1/README.md) | Vue 2 |
+| [vue3-from-0-to-1/](./vue3-from-0-to-1/README.md) | Vue 3 |
+| [typescript-from-0-to-1/](./typescript-from-0-to-1/README.md) | TypeScript（笔记到 **7.0**；仓库锁 5.9） |
+| [webpack-from-0-to-1/](./webpack-from-0-to-1/README.md) | webpack 4/5 |
+| [vite-from-0-to-1/](./vite-from-0-to-1/README.md) | Vite **8** |
+| [rollup-from-0-to-1/](./rollup-from-0-to-1/README.md) | Rollup（库 / Vite≤7 生产） |
+| [tsup-from-0-to-1/](./tsup-from-0-to-1/README.md) | tsup（esbuild 打库） |
+| [rolldown-from-0-to-1/](./rolldown-from-0-to-1/README.md) | Rolldown（Vite 8 默认打包器） |
+| [eslint-from-0-to-1/](./eslint-from-0-to-1/README.md) | ESLint 8/9 |
+| [prettier-from-0-to-1/](./prettier-from-0-to-1/README.md) | Prettier 2/3 |
+| [oxlint-from-0-to-1/](./oxlint-from-0-to-1/README.md) | Oxlint **1.57** |
+| [oxfmt-from-0-to-1/](./oxfmt-from-0-to-1/README.md) | Oxfmt **0.42** |
+| [docker-from-0-to-1/](./docker-from-0-to-1/README.md) | Docker Engine **29**（上腾讯云见 [docs/tencent-cvm-docker.md](../docs/tencent-cvm-docker.md)） |
+| [kubernetes-from-0-to-1/](./kubernetes-from-0-to-1/README.md) | Kubernetes **1.36** |
+| [k3s-from-0-to-1/](./k3s-from-0-to-1/README.md) | k3s（跟 k8s minor，如 **1.36.x+k3s1**） |
