@@ -4,6 +4,8 @@
 
 调和器骨架仍是第 6 章的 Fiber + Lane + Scheduler。19 是在这套机器上接了几块新引擎：**Thenable（`use`）**、**Flight（RSC）**、**Actions**、以及 19.2 的 **Activity / useEffectEvent**。用法见 [reactjs-from-0-to-1/07](../reactjs-from-0-to-1/07-react-19.md)。
 
+[《React技术揭秘》](https://react.iamkasong.com/) 停在 **17.0.0-alpha**，读完卡颂后用本章接上：`use` 把 IO 瓶颈从「框架 throw promise」收进核心；Flight 是第三种线上载荷；Activity 是 Offscreen 的稳定 API。Fiber / Lane / commit 三子阶段没有换。
+
 ## 7.1 仓库里 19 多出来的包
 
 | 包 | 职责 |

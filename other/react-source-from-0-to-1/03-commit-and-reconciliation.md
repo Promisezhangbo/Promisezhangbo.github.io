@@ -44,7 +44,23 @@ function workLoop(deadline) {
 
 `performUnitOfWork` 里删掉 `appendChild`，只 `createDom` + 建子 fiber。
 
-这就是官方一直沿用的两阶段。18+ 的 commit 还会再拆 mutation / layout / passive，见 [06](./06-react-18-source.md)；「render 可中断、commit 同步」这条不变。
+这就是官方一直沿用的两阶段。卡颂把 **15 会露出半截 DOM** 说得很清楚：当时 Reconciler 和 Renderer 交替，一个 `li` 改完再调和下一个。16 起两段拆开，render 只打标。18+ 的 commit 还会再拆 before mutation / mutation / layout / passive，见 [06](./06-react-18-source.md)；「render 可中断、commit 同步」这条不变。
+
+## 3.1.1 「递」和「归」
+
+Didact 一个 `performUnitOfWork` 做完所有事。官方拆成两段，卡颂称为深度优先的 **递** 和 **归**（[beginWork](https://react.iamkasong.com/process/beginWork.html) / [completeWork](https://react.iamkasong.com/process/completeWork.html)）：
+
+```
+performUnitOfWork
+  ├─ beginWork（递）  创建或复用 **子** fiber，返回 child
+  └─ 没有 child 了
+        completeWork（归）  Host 组件在这里创建 DOM、appendAllChildren
+        然后找 sibling；没有 sibling 就 return 到父节点再 complete
+```
+
+`completeWork` 对 `HostComponent` 会 `appendAllChildren`：把已经 complete 的子孙 DOM 挂到当前节点上。归到 root 时，内存里已经有一棵 **离屏 DOM 树**。首屏 commit 往往只需把这棵树一次性插入容器——这就是下面「只给 root 打 Placement」的原因。
+
+16/17 还会在归的过程中把有副作用的节点串成 **`effectList`**（`firstEffect` / `lastEffect` / `nextEffect`）。commit 只遍历这条链表，不走完整棵树。18+ 更多靠 `subtreeFlags` 跳过干净子树，链表不如早期显眼，思想一样。
 
 ## 3.2 双缓冲：`currentRoot` 与 `alternate`
 
@@ -133,7 +149,14 @@ function reconcileChildren(wipFiber, elements) {
 
 删除打在旧 fiber 上，而 commit 从 **WIP 根** 往下走，WIP 上没有这些旧节点。所以要另存 `deletions` 数组，commit 时先处理删除。
 
-官方更进一步：用 `key` 做同级匹配，列表换位不必卸掉整个 DOM。Didact **故意不做 key**。真实算法仍是 O(n) 启发式：type 不同就整棵子树拆掉重建；同级靠 `key` 找可复用节点。实现在 `reconcileChildFibers`（`ReactChildFiber.js`）。
+官方更进一步：用 `key` 做同级匹配，列表换位不必卸掉整个 DOM。Didact **故意不做 key**。真实算法仍是 O(n) 启发式：type 不同就整棵子树拆掉重建；同级靠 `key` 找可复用节点。实现在 `reconcileChildFibers`（`ReactChildFiber.js`），展开见 [08 Diff](./08-diff.md)。
+
+`mountChildFibers` 和 `reconcileChildFibers` 几乎是同一个工厂函数，差别只有 `shouldTrackSideEffects`：
+
+- **update**（`current !== null`）：给新 fiber 打 `Placement` / 给旧的打 `Deletion`
+- **mount**（`current === null`）：**不打** Placement。否则首屏每个节点都插入一次，DOM 操作极差
+
+首屏仍然能出现在页面上，是因为 **rootFiber 一开始就有 current**（FiberRoot 上那棵空树），root 走 `reconcileChildFibers`，只有根子树带一次 `Placement`；commit 把 complete 阶段拼好的离屏 DOM **一次**插进容器。详见 [卡颂 beginWork · effectTag](https://react.iamkasong.com/process/beginWork.html)。
 
 ## 3.4 Commit 时按 tag 改 DOM
 

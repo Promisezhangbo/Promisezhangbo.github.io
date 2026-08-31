@@ -38,7 +38,7 @@ Dockerfile / Dockerfile.cvm → OCI 镜像
 | [self_check/](./self_check/README.md) | 本机卡顿自检 |
 | [showMD/](./showMD/README.md) | 本地 Markdown 编辑器（**Tauri 2 + React**，`pnpm tauri dev`） |
 | [reactjs-from-0-to-1/](./reactjs-from-0-to-1/README.md) | React 用法（到 **19.2**） |
-| [react-source-from-0-to-1/](./react-source-from-0-to-1/README.md) | React 源码：Didact 迷你实现 + **16–19.2** 对照 |
+| [react-source-from-0-to-1/](./react-source-from-0-to-1/README.md) | React 源码：Didact + [卡颂](https://react.iamkasong.com/) 架构 + **19.2** |
 | [vue2-from-0-to-1/](./vue2-from-0-to-1/README.md) | Vue 2 |
 | [vue3-from-0-to-1/](./vue3-from-0-to-1/README.md) | Vue 3 |
 | [typescript-from-0-to-1/](./typescript-from-0-to-1/README.md) | TypeScript（笔记到 **7.0**；仓库锁 5.9） |

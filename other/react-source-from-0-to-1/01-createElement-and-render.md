@@ -95,7 +95,7 @@ function createTextElement(text) {
 /** @jsx Didact.createElement */
 ```
 
-今日项目一般是 `"jsx": "react-jsx"`，不会再看到这条 pragma。
+今日项目一般是 `"jsx": "react-jsx"`，不会再看到这条 pragma。卡颂 [深入理解 JSX](https://react.iamkasong.com/) 前置知识里同一件事：JSX 只是 `createElement` / `jsx()` 的语法糖，运行时看到的永远是 `{ type, props, key, ref }`。`$$typeof`（`REACT_ELEMENT_TYPE`）用来防 XSS：JSON 不能带 Symbol，服务端乱注入的普通对象不会被当成元素。
 
 ## 1.4 第一次 `render`：递归创建 DOM
 

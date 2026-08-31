@@ -72,7 +72,23 @@ Didact.render(
 | --- | --- | --- |
 | `child` | `child` | 第一个子 fiber |
 | `sibling` | `sibling` | 下一个兄弟 |
-| `parent` | **`return`** | 父节点。官方叫 return，因为它模拟的是「调用栈返回」 |
+| `parent` | **`return`** | 父节点 |
+
+官方不叫 `parent`，叫 `return`：[卡颂的解释](https://react.iamkasong.com/process/fiber.html) 是——作为工作单元，子节点做完 `completeWork` 之后 **返回** 的下一个节点就是父节点。这是在模拟调用栈的 `return`，不是家谱术语。
+
+## 2.2.1 Fiber 的三层含义
+
+卡颂把 Fiber 拆成三句话，读 `ReactFiber.js` 字段时按这三类看，不会晕：
+
+| 含义 | 是什么 | 典型字段 |
+| --- | --- | --- |
+| **架构** | 16 的 Reconciler 叫 Fiber Reconciler，相对 15 的 stack Reconciler | `return` / `child` / `sibling` 把节点连成树 |
+| **静态数据结构** | 每个节点对应一个 React element | `tag`、`key`、`type`、`elementType`、`stateNode`（DOM） |
+| **动态工作单元** | 这一次更新要干什么 | `pendingProps` / `memoizedProps`、`updateQueue`、`memoizedState`、`flags`（旧名 `effectTag`）、`lanes` |
+
+另外还有 `alternate`：指向「另一棵树」上的自己（current ↔ WIP）。
+
+心智模型（[Fiber 心智](https://react.iamkasong.com/process/fiber-mental.html)）：可中断更新像代数效应里的 `try`/`handle`——算到一半把中间状态留下，浏览器要时间就让出，回来接着干。JS 没有纤程，React 用链表把栈帧搬到堆上自己模拟。Generator 也是代数效应的一种体现，但官方调和器 **没有** 用 Generator 实现 work loop。
 
 遍历规则（深度优先）：
 

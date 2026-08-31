@@ -36,6 +36,23 @@ function performUnitOfWork(unitOfWork) {
 
 Didact 在 begin 阶段就 `createDom`；官方 host 实例多在 complete 时创建，这样子节点先 complete，父节点才能一次挂好孩子。
 
+`beginWork(current, workInProgress, renderLanes)` 用 `current === null` 区分 mount / update（[卡颂](https://react.iamkasong.com/process/beginWork.html)）：
+
+- **update 且可跳过**：`oldProps === newProps`、type 没变、当前 fiber 的 lanes 不在 `renderLanes` 里 → `bailoutOnAlreadyFinishedWork`，直接复用 `current.child`
+- **否则**按 `workInProgress.tag` 进 `updateFunctionComponent` / `updateHostComponent` / …，最后都进 `reconcileChildren`
+
+`reconcileChildren`：
+
+```js
+if (current === null) {
+  workInProgress.child = mountChildFibers(...)      // 不打 Placement
+} else {
+  workInProgress.child = reconcileChildFibers(...)  // 打 effect 标记
+}
+```
+
+`completeWork`（[卡颂](https://react.iamkasong.com/process/completeWork.html)）：函数组件多数 tag 直接 `return null`（没有 DOM 可建）。`HostComponent` 创建 `stateNode`，`appendAllChildren`，把子树 flags 冒泡。16/17 在 `completeUnitOfWork` 里把带 `effectTag` 的节点接到 `effectList` 上，commit 从 `rootFiber.firstEffect` 走到 `lastEffect`。
+
 ## 5.2 名字对照表
 
 | Didact | 真实源码（约 16.8+） |
@@ -97,7 +114,9 @@ Didact 在 render 中途又来一次 `setState`，会丢掉整棵 WIP，从根�
 2. `packages/react-reconciler/src/ReactFiber.js` — 节点字段  
 3. `ReactFiberWorkLoop.js` — 搜 `performUnitOfWork`  
 4. `ReactFiberBeginWork.js` — 搜 `updateFunctionComponent`  
-5. `ReactFiberHooks.js` — 搜 `updateReducer` / `mountWorkInProgressHook`  
-6. `ReactFiberCommitWork.js` — 搜 `commitMutationEffects`  
+5. `ReactFiberCompleteWork.js` — 搜 `appendAllChildren`  
+6. `ReactFiberHooks.js` — 搜 `updateReducer` / `mountWorkInProgressHook`  
+7. `ReactFiberCommitWork.js` — 搜 `commitMutationEffects`  
+8. `ReactChildFiber.js` — Diff，配合 [08](./08-diff.md)
 
-然后带着「Didact 缺了优先级」去读 18 的 `ReactFiberLane.js`。
+然后带着「Didact 缺了优先级」去读 18 的 `ReactFiberLane.js`，以及 [09](./09-state-update.md) 的 Update 队列。

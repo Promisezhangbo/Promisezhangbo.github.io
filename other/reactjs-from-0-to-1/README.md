@@ -2,7 +2,7 @@
 
 面向「会 JS，要从头把 React 学扎实」的笔记。每个知识点都标了 **首次稳定出现的版本**；本仓库当前是 **React 19.2 + React Router 7 + Vite**。
 
-调和器 / Fiber / Lane / RSC 源码走另一套：[react-source-from-0-to-1](../react-source-from-0-to-1/README.md)（从 [pomb.us/build-your-own-react](https://pomb.us/build-your-own-react/) 搭到 19.2）。
+调和器 / Fiber / Lane / RSC 源码走另一套：[react-source-from-0-to-1](../react-source-from-0-to-1/README.md)（[pomb.us](https://pomb.us/build-your-own-react/) 迷你实现 + [卡颂《React技术揭秘》](https://react.iamkasong.com/) 的架构篇，接到 19.2）。
 
 官方文档：[react.dev](https://react.dev)（跟 19.x）。旧大版归档：`18.react.dev` / `16.react.dev`。
 

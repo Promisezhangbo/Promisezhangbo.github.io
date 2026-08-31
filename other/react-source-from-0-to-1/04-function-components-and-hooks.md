@@ -168,6 +168,50 @@ function useState(initial) {
 
 官方不用数组而用 **链表**：`fiber.memoizedState` 指向第一个 hook，每个 hook 的 `next` 指向下一个。Didact 用数组更易读，语义相同。源码：`ReactFiberHooks.js` 的 `updateWorkInProgressHook`。
 
+## 4.4.1 真实 Hooks：dispatcher 与节点形状
+
+对齐 [卡颂 · Hooks 数据结构](https://react.iamkasong.com/hooks/structure.html)。
+
+Didact 用 `hookIndex` 区分第几次 `useState`。官方在 `renderWithHooks` 里先选 **dispatcher**，再让你写的 `useState` 其实是 `ReactCurrentDispatcher.current.useState`：
+
+| 时机 | dispatcher | 实际函数 |
+| --- | --- | --- |
+| `current === null` 或还没有 hooks | `HooksDispatcherOnMount` | `mountState` / `mountEffect` … |
+| 已有 current | `HooksDispatcherOnUpdate` | `updateState` / `updateEffect` … |
+| 在 `useEffect` 回调里又调 hook 等非法位置 | `ContextOnlyDispatcher` | 一律 `throwInvalidHookError` |
+
+所以「不能在循环/条件里改变 hook 数量」之外，还有「不能在 effect 里调 `useState`」——那时 dispatcher 已经换成会扔错的那份。
+
+单个 hook 节点（不要和 fiber 的同名字段混）：
+
+```js
+const hook = {
+  memoizedState: null, // 这个 hook 自己的值
+  baseState: null,
+  baseQueue: null,
+  queue: null,         // 待处理的 Update 环
+  next: null,          // 下一个 hook
+}
+```
+
+| 记在哪 | 是什么 |
+| --- | --- |
+| `fiber.memoizedState` | 该函数组件 **hooks 链表头** |
+| `hook.memoizedState` | **这一个** hook 的数据 |
+
+不同类型塞进 `hook.memoizedState` 的东西不一样：
+
+| Hook | `hook.memoizedState` |
+| --- | --- |
+| `useState` / `useReducer` | 当前 state |
+| `useRef` | `{ current }` |
+| `useMemo` | `[计算结果, deps]` |
+| `useCallback` | `[函数本身, deps]` |
+| `useEffect` / `useLayoutEffect` | `effect` 对象（create / destroy / deps）；effect 链表同时挂在 `fiber.updateQueue` |
+| `useContext` | 没有这份 memoizedState，走 `readContext` |
+
+`useState` 在内部就是预设好 reducer 的 `useReducer`。Update 怎么进 `queue`、按 Lane 筛，见 [09](./09-state-update.md)。
+
 ## 4.5 Didact 完整实现（Step VIII）
 
 下面是 Pombo 文末那一版，可直接对照 [didact 仓库](https://github.com/pomber/didact)。省略 `createElement` / `updateDom` 时见前几章。
@@ -223,4 +267,4 @@ Pombo 文末列的作业，官方都有：
 | `useEffect` | commit 后的 passive effects |
 | 按 `key` 调和 | `ReactChildFiber.js` |
 
-下一章把 Didact 的名字一一钉到 **16.8–17** 的真实文件上，并列出官方多出来的优化。18/19 的 Lane、`use`、RSC 在第 6、7 章。
+下一章把 Didact 的名字一一钉到 **16.8–17** 的真实文件上，并列出官方多出来的优化。Diff 细节在 [08](./08-diff.md)，`setState` 全链路在 [09](./09-state-update.md)。18/19 的 Lane、`use`、RSC 在第 6、7 章。

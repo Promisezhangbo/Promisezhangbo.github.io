@@ -19,13 +19,30 @@ SSR 对称 API 是 `hydrateRoot`；流式 SSR 是 `renderToPipeableStream`（Nod
 
 ## 6.2 Scheduler：时间片和 `MessageChannel`
 
-独立包 `packages/scheduler`。React 把「这个 root 有活」登记进去，到期回调 `performConcurrentWorkOnRoot`。
+独立包 `packages/scheduler`。React 把「这个 root 有活」登记进去，到期回调 `performConcurrentWorkOnRoot`。对齐 [卡颂 · Scheduler](https://react.iamkasong.com/concurrent/scheduler.html)：它干两件事——**时间切片**和**优先级调度**。和 React 自己的 Lane **不是同一套数字**。
 
-要点：
+浏览器一帧里 JS 能插的位置大致是：
 
-- 默认时间片 **`frameYieldMs` ≈ 5ms**（`Scheduler.js` / `forks/Scheduler.js`）。16.67ms 一帧里留出布局、绘制、输入。
-- 续跑不用 `requestIdleCallback`，用 **`MessageChannel.port.postMessage`**：页面忙时 rIC 可能永不回调；嵌套 `setTimeout(0)` 有 4ms 下限。
-- 任务带 Scheduler 优先级（Immediate / UserBlocking / Normal / Low / Idle），和 Lane **不是同一套数字**，中间有一层映射。
+```
+宏任务 → 清完微任务 → rAF → 重排/重绘 → requestIdleCallback
+```
+
+`requestIdleCallback` 在绘制之后、有空才跑。官方不用它：兼容性；后台 tab 频率会掉到几乎不可用。`rAF` 只能卡在绘制 **之前**。于是 Scheduler 用更早的宏任务：**`MessageChannel.postMessage`**（没有就退回 `setTimeout`）。嵌套 `setTimeout(0)` 还有 4ms 下限，MessageChannel 没有。
+
+- 默认时间片 **`frameYieldMs` ≈ 5ms**。一帧 16.6ms 里留给布局/绘制。跑久了会按 fps 微调。
+- 任务过期时间按 Scheduler 优先级算，不是按 Lane：
+
+| Scheduler 优先级 | 过期（卡颂书中数量级） |
+| --- | --- |
+| Immediate | `-1`（已经过期，立刻跑） |
+| UserBlocking | ~250ms |
+| Normal | ~5000ms |
+| Low | ~10000ms |
+| Idle | 几乎永不过期 |
+
+`commitRoot` 包在 `runWithPriority(Immediate, …)` 里，所以 commit 是同步、最高调度档。
+
+内部两个小顶堆：`timerQueue`（还没到 startTime）和 `taskQueue`（已就绪）。每次取最早过期的那个。并发 render 的回调 `performConcurrentWorkOnRoot` 若没干完会 **返回自己** 当 continuation，Scheduler 看到返回值是函数就把同一条任务接着排，这就是切片后续跑。
 
 并发循环概念上就是 Didact 的 `workLoop`：
 
@@ -41,9 +58,20 @@ function workLoopConcurrent() {
 
 ## 6.3 Lane：31 位优先级掩码
 
-文件：`packages/react-reconciler/src/ReactFiberLane.js`。
+文件：`packages/react-reconciler/src/ReactFiberLane.js`。[卡颂 · lane 模型](https://react.iamkasong.com/concurrent/lane.html) 用赛车道比喻：31 位就是 31 条赛道，**位数越小越内圈、优先级越高**；相邻若干位组成一条「批」（`Lanes`，区别于单条 `Lane`）。
 
-16 的 `expirationTime` 是一个数字，很难表达「树上同时挂着点击更新和 transition」。Lane 用 **位**：每个 bit 一类工作，可以并存、按位或合并、按最高有效位先做。
+16 的 `expirationTime` 是一个数字，很难表达「树上同时挂着点击更新和 transition」。Lane 用 **位**：可以并存、按位或合并、按最高有效位先做。
+
+卡颂归纳的三个需求：能表示不同优先级；能表示「同一档里有多批」；计算是位运算所以便宜。
+
+```js
+includesSomeLane(a, b)  // (a & b) !== 0
+isSubsetOfLanes(set, x) // (set & x) === x
+mergeLanes(a, b)        // a | b
+removeLanes(set, x)     // set & ~x
+```
+
+低优先级占用的位更多（Transition 一大段，Sync 只有 1 bit）：低优更容易被打断积压，需要更多槽。书中的 `SyncBatchedLane`、`InputDiscreteLanes` 等名字在 18/19 有过整理，读源码以当前 `ReactFiberLane.js` 为准，心智不变。
 
 常见档位（名字以 18/19 源码为准，具体常量可能增减）：
 
@@ -91,6 +119,19 @@ function workLoopConcurrent() {
 
 和 Didact 的差别：commit **拆成多段**，保证「先改 DOM，再同步 layout，paint 后再被动 effect」。这就是 `useLayoutEffect` 能读到布局、`useEffect` 不挡首次绘制的根源。
 
+卡颂把前三段叫 before mutation / mutation / layout（[before mutation](https://react.iamkasong.com/renderer/beforeMutation.html)）。18 起还有 paint 后的 **passive**。遍历的是有 flags 的节点（早期是 `effectList`）：
+
+| 子阶段 | 典型工作 | 为何在这一段 |
+| --- | --- | --- |
+| **before mutation** | `getSnapshotBeforeUpdate`；给 `useEffect` **调度**（还没执行）；focus/blur | DOM 还没改，快照是旧 UI；`componentWillXXX` 在 Fiber 下可能随 render 重跑，所以标 `UNSAFE_`，快照改到这段（同步、只一次） |
+| **mutation** | 按 Placement / Update / Deletion 改 DOM；卸旧 ref | 真正碰宿主 |
+| **layout** | `useLayoutEffect`、`componentDidMount/Update`、赋新 ref | DOM 已是新的，但还没 paint，适合读布局 |
+| **passive** | `useEffect` 的 create / destroy | `flushPassiveEffects`，Normal 优先级，不挡首屏绘制 |
+
+`useEffect` 分三步（卡颂）：before mutation 里 `scheduleCallback(flushPassiveEffects)` → layout 之后把 root 记到 `rootWithPendingPassiveEffects` → 回调里才真正遍历执行。不要在 `useEffect` 里做必须赶在 paint 前的事，那是 `useLayoutEffect` 的槽。
+
+`useInsertionEffect`（**≥18**）比 layout 还早，给 CSS-in-JS 插样式，卡颂书里还没有。
+
 ## 6.5 flags 与双缓冲
 
 18+ 用位掩码，例如 `Placement`、`Update`、`Deletion`、`Passive`、`LayoutMask`。`subtreeFlags` 让 commit 跳过干净子树。
@@ -120,3 +161,5 @@ function workLoopConcurrent() {
 ## 6.8 读 18 源码时别被文件体量吓到
 
 `ReactFiberWorkLoop.js` 很长，里面同时处理：同步/并发、错误恢复、Suspense、hydration、DevTools。抓住三条函数即可：`ensureRootIsScheduled`、`performUnitOfWork`、`commitRoot`。其余都是这两阶段上的分支。
+
+卡颂第八章后半（异步可中断、高优打断、batchedUpdates、Suspense）在书里标了未完成。对应实现就在本章：`shouldYield` + continuation、Lane 抢占（丢 WIP 再重做）、18 自动批处理、`ReactFiberThrow.js`。读 19 的 `use` / RSC 转 [07](./07-react-19-source.md)。

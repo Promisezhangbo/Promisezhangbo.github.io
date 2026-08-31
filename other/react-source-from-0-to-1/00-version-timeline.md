@@ -2,6 +2,21 @@
 
 用法 API 的时间线在 [reactjs-from-0-to-1/00](../reactjs-from-0-to-1/00-version-timeline.md)。这里只记 **调和器怎么演进**，以及打开官方仓库时该进哪个包。
 
+理念与 15→16 分层，对齐 [卡颂《React技术揭秘》理念篇](https://react.iamkasong.com/preparation/idea.html)（书中源码基线 **17.0.0-alpha**）。
+
+## 理念：快速响应要拆两道瓶颈
+
+官网原话可以收成一句：**用 JS 构建能快速响应的大型 Web 应用**。卡颂把拖慢响应的原因分成两类，架构几乎都是围着它们转的：
+
+| 瓶颈 | 用户感知 | React 的解 |
+| --- | --- | --- |
+| **CPU** | 大树一次递归算完，超过一帧 **16.6ms**（60Hz），JS 和 GUI 线程互斥，掉帧 | **时间切片**：每片大约 **5ms**（`frameYieldMs`），把长任务拆开，把主线程还给布局/绘制 |
+| **IO** | 网络回来之前界面要么空白要么 loading 闪一下 | **Suspense / 过渡**：先在当前界面多停一小会儿请求数据；太久再显示 fallback。19 的 `use` 仍走这条 |
+
+时间切片的前提是：**同步更新变成可中断的异步更新**。15 做不到（递归 + 边调和边改 DOM），所以 16 重写 Reconciler。
+
+16 有 Fiber 结构，**不等于** 16 的 `ReactDOM.render` 会切片。切片作为稳定默认行为，要 **18 `createRoot`**。卡颂文里的 `unstable_createRoot` 就是这条路的实验名。
+
 ## 大版本：引擎换了几次
 
 | 版本 | 时间 | 引擎 | 一句话 |
@@ -17,6 +32,32 @@
 **16 有 Fiber，不等于 16 有并发。** 16/17 的 `ReactDOM.render` 仍然是同步把树走完。并发要 **18 的 `createRoot`** 才作为稳定入口打开。
 
 Didact 对应的是 **16.8 的架构草图**：Fiber + 可中断循环 + 函数组件 + 一个 `useState`。Lane、Scheduler、Suspense、RSC 都不在那篇文章里。
+
+## 15 两层 vs 16 三层
+
+对齐 [老架构](https://react.iamkasong.com/preparation/oldConstructure.html) / [新架构](https://react.iamkasong.com/preparation/newConstructure.html)。
+
+**React 15：**
+
+```
+Reconciler（递归找出变化） ⇄ Renderer（立刻改宿主）
+```
+
+两层 **交替** 工作：调和完一个 `li` 就插入 DOM，再调和下一个。过程是同步的，用户看起来像同时更新。若中途能打断（15 实际不会），屏幕上会出现 `123` 变成 `223` 这种半截 UI。这就是 Didact 第 2 章「边 `appendChild` 边走树」的真实版本问题。
+
+**React 16+：**
+
+```
+Scheduler（谁先做、做多久）
+    ↓ 有剩余时间 / 按优先级
+Reconciler（只在内存里给 Fiber 打 Placement / Update / Deletion）
+    ↓ 整棵树的 render 结束
+Renderer（同步按标记改 DOM）
+```
+
+Scheduler 本可以是 `requestIdleCallback`。官方不用它：兼容性差；切后台 tab 后回调会变得极慢。于是自研 `packages/scheduler`（卡颂称为 rIC 的完备 polyfill），额外带优先级。Reconciler 与 Renderer **不再交替**：render 全程内存，commit 一次性交给 Renderer。
+
+`react-reconciler` 是平台无关包，`react-dom` 只是其中一种 Renderer。
 
 ## 调度模型怎么换
 
@@ -69,6 +110,8 @@ packages/
 - **workInProgress（WIP）**：正在算的下一棵
 
 对应节点用 `alternate` 互指。Commit 成功后把根上的 current 指针一换，WIP 变成 current。Didact 的 `currentRoot` / `wipRoot` 就是这件事的教学版。
+
+根上还有一层：`fiberRootNode`（真正的根容器对象）指向 `rootFiber`。`current` 指针挂在 **FiberRoot** 上，不是某个组件 fiber 上。mount 时会先创建一棵空的 current 树，所以 **rootFiber 从一开始就有 `alternate`**，后面 `beginWork` 才能走「update 打标」而不是给每个新节点都打 `Placement`（见 [05](./05-map-to-real-source.md) / [卡颂 beginWork](https://react.iamkasong.com/process/beginWork.html)）。
 
 ## 和本仓库
 
