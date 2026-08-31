@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/resume/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="在线简历：技能、经历、项目与教育等结构化展示，支持导出 PDF。">
+    <meta name="keywords" content="zhangbo, 张博, 简历, 在线简历, PDF">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#4f46e5">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="在线简历 | 张博">
+    <meta property="og:description" content="在线简历：技能、经历、项目与教育等结构化展示，支持导出 PDF。">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="在线简历 | 张博">
+    <meta name="twitter:description" content="在线简历：技能、经历、项目与教育等结构化展示，支持导出 PDF。">
+    <title>在线简历 | 张博</title>
+    <script crossorigin="">import('/resume/jse/index-index-CTZg7E8b.js').finally(() => {
+            
+    const qiankunLifeCycle = window.moudleQiankunAppLifeCycles && window.moudleQiankunAppLifeCycles['resume'];
+    if (qiankunLifeCycle) {
+      window.proxy.vitemount((props) => qiankunLifeCycle.mount(props));
+      window.proxy.viteunmount((props) => qiankunLifeCycle.unmount(props));
+      window.proxy.vitebootstrap(() => qiankunLifeCycle.bootstrap());
+      window.proxy.viteupdate((props) => qiankunLifeCycle.update(props));
+    }
+  
+          })</script>
+    <link rel="modulepreload" crossorigin="" href="/resume/js/rolldown-runtime-CIMjf7vo.js">
+    <link rel="modulepreload" crossorigin="" href="/resume/js/react-vendor-xqPLROuK.js">
+    <link rel="modulepreload" crossorigin="" href="/resume/js/vendor-BEvqJ6gw.js">
+    <link rel="stylesheet" crossorigin="" href="/resume/css/vendor-DSGyN-cr.css">
+    <link rel="stylesheet" crossorigin="" href="/resume/css/index-DOawEOb8.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  
+
+<script>
+  const createDeffer = (hookName) => {
+    const d = new Promise((resolve, reject) => {
+      window.proxy && (window.proxy[`vite${hookName}`] = resolve)
+    })
+    return props => d.then(fn => fn(props));
+  }
+  const bootstrap = createDeffer('bootstrap');
+  const mount = createDeffer('mount');
+  const unmount = createDeffer('unmount');
+  const update = createDeffer('update');
+
+  ;(global => {
+    global.qiankunName = 'resume';
+    global['resume'] = {
+      bootstrap,
+      mount,
+      unmount,
+      update
+    };
+  })(window);
+</script></body></html>

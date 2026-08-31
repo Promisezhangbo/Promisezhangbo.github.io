@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('private-main-theme');
+          document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+        } catch (e) {}
+      })();
+    </script>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/agent/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="对话式 AI 工作台：流式与非流式大模型调用、Markdown 渲染与可配置模型能力。">
+    <meta name="keywords" content="zhangbo, 张博, AI, LLM, Markdown, 对话, Agent">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#06b6d4">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="AI 工作台 | 张博">
+    <meta property="og:description" content="对话式 AI 工作台：流式与非流式大模型调用、Markdown 渲染与可配置模型能力。">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI 工作台 | 张博">
+    <meta name="twitter:description" content="对话式 AI 工作台：流式与非流式大模型调用、Markdown 渲染与可配置模型能力。">
+    <title>AI 工作台 | 张博</title>
+    <script crossorigin="">import('/agent/jse/index-index-dnjFTi11.js').finally(() => {
+            
+    const qiankunLifeCycle = window.moudleQiankunAppLifeCycles && window.moudleQiankunAppLifeCycles['agent'];
+    if (qiankunLifeCycle) {
+      window.proxy.vitemount((props) => qiankunLifeCycle.mount(props));
+      window.proxy.viteunmount((props) => qiankunLifeCycle.unmount(props));
+      window.proxy.vitebootstrap(() => qiankunLifeCycle.bootstrap());
+      window.proxy.viteupdate((props) => qiankunLifeCycle.update(props));
+    }
+  
+          })</script>
+    <link rel="modulepreload" crossorigin="" href="/agent/js/rolldown-runtime-CIMjf7vo.js">
+    <link rel="modulepreload" crossorigin="" href="/agent/js/react-vendor-xqPLROuK.js">
+    <link rel="modulepreload" crossorigin="" href="/agent/js/vendor-aBtft3Lx.js">
+    <link rel="stylesheet" crossorigin="" href="/agent/css/vendor-DkRjGfBb.css">
+    <link rel="stylesheet" crossorigin="" href="/agent/css/index--IJXuA5H.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  
+
+<script>
+  const createDeffer = (hookName) => {
+    const d = new Promise((resolve, reject) => {
+      window.proxy && (window.proxy[`vite${hookName}`] = resolve)
+    })
+    return props => d.then(fn => fn(props));
+  }
+  const bootstrap = createDeffer('bootstrap');
+  const mount = createDeffer('mount');
+  const unmount = createDeffer('unmount');
+  const update = createDeffer('update');
+
+  ;(global => {
+    global.qiankunName = 'agent';
+    global['agent'] = {
+      bootstrap,
+      mount,
+      unmount,
+      update
+    };
+  })(window);
+</script></body></html>

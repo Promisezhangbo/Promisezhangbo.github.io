@@ -1,0 +1,1 @@
+var e=`/login/png/logo-CgqDuUI3.png`;function t(e){return new Promise(t=>setTimeout(t,e))}export{e as n,t};

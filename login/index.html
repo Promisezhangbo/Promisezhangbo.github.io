@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/login/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="账户登录与注册入口。">
+    <meta name="keywords" content="zhangbo, 张博, 登录, 注册">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0d9488">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="登录与注册 | 张博">
+    <meta property="og:description" content="账户登录与注册入口。">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="登录与注册 | 张博">
+    <meta name="twitter:description" content="账户登录与注册入口。">
+    <title>登录与注册 | 张博</title>
+    <script crossorigin="">import('/login/jse/index-index-BaHbC2s1.js').finally(() => {
+            
+    const qiankunLifeCycle = window.moudleQiankunAppLifeCycles && window.moudleQiankunAppLifeCycles['login'];
+    if (qiankunLifeCycle) {
+      window.proxy.vitemount((props) => qiankunLifeCycle.mount(props));
+      window.proxy.viteunmount((props) => qiankunLifeCycle.unmount(props));
+      window.proxy.vitebootstrap(() => qiankunLifeCycle.bootstrap());
+      window.proxy.viteupdate((props) => qiankunLifeCycle.update(props));
+    }
+  
+          })</script>
+    <link rel="modulepreload" crossorigin="" href="/login/js/rolldown-runtime-CIMjf7vo.js">
+    <link rel="modulepreload" crossorigin="" href="/login/js/react-vendor-D4KQpZZS.js">
+    <link rel="modulepreload" crossorigin="" href="/login/js/vendor-CrfMqdsu.js">
+    <link rel="stylesheet" crossorigin="" href="/login/css/index-BDJs07tV.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  
+
+<script>
+  const createDeffer = (hookName) => {
+    const d = new Promise((resolve, reject) => {
+      window.proxy && (window.proxy[`vite${hookName}`] = resolve)
+    })
+    return props => d.then(fn => fn(props));
+  }
+  const bootstrap = createDeffer('bootstrap');
+  const mount = createDeffer('mount');
+  const unmount = createDeffer('unmount');
+  const update = createDeffer('update');
+
+  ;(global => {
+    global.qiankunName = 'login';
+    global['login'] = {
+      bootstrap,
+      mount,
+      unmount,
+      update
+    };
+  })(window);
+</script></body></html>
