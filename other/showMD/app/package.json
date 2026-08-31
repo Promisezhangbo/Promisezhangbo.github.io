@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "desktop": "tauri dev",
-    "desktop:build": "tauri build"
+    "pack": "node scripts/pack.mjs",
+    "pack:mac": "node scripts/pack.mjs mac",
+    "pack:win": "node scripts/pack.mjs win"
   },
   "dependencies": {
     "@milkdown/crepe": "^7.22.1",

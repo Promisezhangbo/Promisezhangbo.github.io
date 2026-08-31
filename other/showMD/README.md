@@ -17,14 +17,16 @@ pnpm tauri dev        # 开发：系统 WebView 打开编辑器
 
 **不要**在 `app/` 里直接 `pnpm install`（会走到仓库根 workspace）。必须 `--ignore-workspace`。
 
-出可安装包：
+出可安装包（必须在对应系统上编；脚本在 `app/scripts/pack.mjs`）：
 
 ```bash
 cd other/showMD/app
-pnpm tauri build      # 产物在 src-tauri/target/release/bundle/macos/ 与 dmg/
+pnpm pack:mac    # 本机 macOS → .dmg
+pnpm pack:win    # 仅 Windows → NSIS .exe；在 Mac 上会退出并提示改用 Actions
+pnpm pack        # 按当前操作系统自动选上面其中一个
 ```
 
-未做 Apple 公证时，自己机器上打开可能要：右键 → 打开，或 `xattr -cr showMD.app`。给别人分发需要 Developer ID + notarization，见 [03](./03-mac-install.md)。
+Mac + Windows 要一起给别人下：把 `app/` 当作新仓库根，打 tag `v0.1.0` 推送，走 `.github/workflows/release.yml`。详见 [04](./04-github-release.md)。
 
 ## 已实现
 

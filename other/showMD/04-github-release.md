@@ -4,11 +4,13 @@ Tauri **必须在对应系统上编对应的包**：这台 Mac 只能稳定打�
 
 ## 4.1 新仓库里放什么
 
-把 **[`app/`](./app/)** 整份当作新仓库根（含 `src-tauri/`、`package.json`、`.github/workflows/release.yml`）。新仓库里没有上层 pnpm workspace，直接：
+把 **[`app/`](./app/)** 整份当作新仓库根（含 `src-tauri/`、`package.json`、`scripts/pack.mjs`、`.github/workflows/release.yml`）。新仓库里没有上层 pnpm workspace，直接：
 
 ```bash
 pnpm install
-pnpm tauri build
+pnpm pack:mac    # 仅 macOS，产物 dmg
+pnpm pack:win    # 仅 Windows，产物 nsis exe
+pnpm pack        # 看本机系统，二选一
 ```
 
 | 你在哪台电脑编 | 得到什么 |
